@@ -8,7 +8,6 @@ module DataSource
     property path : Path
     property aliases : Array(String)
 
-
     def initialize(@name, @path, @aliases = [] of String)
     end
 
