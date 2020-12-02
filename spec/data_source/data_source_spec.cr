@@ -22,7 +22,7 @@ describe DB::DataSource do
       aliases: ["tempy"]
 
     make_tmp_data_source do |data_source|
-      data_source.add_entry_to_db new_entry
+      data_source.add_entry new_entry
 
       data = data_source.read_db_data
       res = data.find { |e| e.name == new_entry.name }
@@ -37,6 +37,27 @@ describe DB::DataSource do
   end
 
   it "correctly removes an entry from the DB" do
-    raise NotImplementedError.new "a"
+    make_tmp_data_source do |data_source|
+      new_entry = DB::DbEntry.new name: "test221 entry",
+        path: Path.posix(Path.home),
+        aliases: ["sweet_home"]
+
+      data_source.add_entry new_entry
+
+      data_source.rm_entry_with_name new_entry.name
+
+      data = data_source.read_db_data
+      res = data.find { |e| e.name == new_entry.name }
+      res.nil?.should eq true
+    end
   end
+
+  it "remove raises error if entry does not exist" do
+    make_tmp_data_source do |data_source|
+      expect_raises(RuntimeError, "Entry not found!") do
+        data_source.rm_entry_with_name "unexistent name"
+      end
+    end
+  end
+
 end

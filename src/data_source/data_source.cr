@@ -34,8 +34,29 @@ module DB
       Array(DbEntry).from_json content
     end
 
-    def add_entry_to_db(entry : DbEntry)
-      raise NotImplementedError.new ""
+    private def save_data(data : Array(DbEntry))
+      config = self.create_db_if_not_exists
+      File.open(config, mode: "w+") do |file|
+        File.write file.path, data.to_json
+      end
+    end
+
+    def add_entry(entry : DbEntry)
+      data = self.read_db_data
+      data << entry
+
+      self.save_data data
+    end
+
+    def rm_entry_with_name(name : String)
+      data = self.read_db_data
+      entry = data.find { |e| e.name == name }
+
+      raise RuntimeError.new("Entry not found!") if entry.nil?
+
+      data.delete(entry)
+
+      self.save_data data
     end
   end
 end
