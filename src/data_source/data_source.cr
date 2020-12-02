@@ -1,6 +1,6 @@
 require "./db_entry"
 
-module DataSource
+module DB
   class DataSource
     property base_path : Path
 

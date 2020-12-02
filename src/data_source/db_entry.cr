@@ -1,6 +1,6 @@
 require "json"
 
-module DataSource
+module DB
   class DbEntry
     include JSON::Serializable
 

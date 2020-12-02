@@ -11,7 +11,7 @@ def make_tmp_data_source(&block)
   (Dir.exists? temp_path).should eq false
   Dir.mkdir_p temp_path
 
-  data_source = DataSource::DataSource.new temp_path
+  data_source = DB::DataSource.new temp_path
 
   yield data_source
 

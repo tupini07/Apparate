@@ -5,7 +5,7 @@ require "json"
 module Apparate
   VERSION = "0.1.0"
 
-  ds = DataSource::DataSource.new
+  ds = DB::DataSource.new
   data = ds.read_db_data
 
   puts data
